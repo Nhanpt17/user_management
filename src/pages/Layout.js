@@ -6,8 +6,8 @@ const Layout =({children})=>{
     const location = useLocation();
     return(
         <div>
-        {/* Chỉ hiển thị Navbar nếu không phải trang Dashboard */}
-        {location.pathname !== "/dashboard" && <Navbar />} 
+        
+         <Navbar />
         <main>{children}</main>
       </div>
     );

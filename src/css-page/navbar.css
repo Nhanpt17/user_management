@@ -1,0 +1,82 @@
+/*  Tổng thể Navbar */
+.custom-navbar {
+    background: #007BFF; /* Màu xanh dương */
+    padding: 12px 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Hiệu ứng Text Gradient */
+  .text-gradient {
+    background: linear-gradient(90deg, #00C9FF, #92FE9D);
+    -webkit-background-clip: text;
+    background-clip: text; /* Dành cho trình duyệt cũ */
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+  
+  /*  Button Tùy Chỉnh */
+  .custom-btn {
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-weight: bold;
+    transition: 0.3s ease;
+  }
+  .custom-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  /*  Avatar */
+  .custom-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .custom-avatar:hover {
+    transform: scale(1.1);
+  }
+  
+  /*  Dropdown */
+  .animated-dropdown {
+    animation: fadeIn 0.3s ease-in-out;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /*  Nút Đăng nhập */
+  .custom-login-btn {
+    background: white;
+    color: #007BFF !important;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-weight: bold;
+    transition: 0.3s;
+  }
+  .custom-login-btn:hover {
+    background: #0056b3;
+    color: white !important;
+  }
+
+  .dropdown-menu {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  
+  /* .dropdown-menu {
+    right: 0 !important;
+    left: auto !important;
+  } */
