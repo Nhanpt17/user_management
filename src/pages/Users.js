@@ -73,12 +73,12 @@ const Users = () => {
 
     const formData = new FormData();
     formData.append("name", editUser.name);
-    formData.append("email", editUser.email);
-    formData.append("password", editUser.password);
-    formData.append("sex", editUser.sex);
-    formData.append("birthday", editUser.birthday);
-    formData.append("address", editUser.address);
-    formData.append("phonenumber", editUser.phonenumber);
+    formData.append("email", editUser.email||null);
+    formData.append("password", editUser.password||null);
+    formData.append("sex", editUser.sex||null);
+    formData.append("birthday", editUser.birthday||null);
+    formData.append("address", editUser.address||null);
+    formData.append("phonenumber", editUser.phonenumber||null);
 
     if (selectedFile) formData.append("avatar", selectedFile);
 
@@ -175,6 +175,7 @@ const Users = () => {
       });
     } finally {
       setIsSubmitting(false);
+      console.log("file ảnh: "+userDetails.avatar);
     }
   };
 
@@ -523,7 +524,8 @@ const Users = () => {
         <Modal.Body>
           <div className="text-center">
             <img
-              src={userDetails.avatar}
+               src={userDetails.avatar}
+              
               alt="Avatar"
               className="rounded-circle shadow-lg"
               style={{ height: "150px", width: "150px", objectFit: "cover" }}
