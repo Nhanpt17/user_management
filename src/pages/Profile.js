@@ -31,7 +31,8 @@ const Profile = () => {
   const [selectedFile,setSelectedFile] = useState(null);
   const [preview, setPreview] = useState(null); // Thêm state để hiển thị ảnh
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const apiUrl = process.env.REACT_APP_API_URL_IMG;
+  const [loading, setLoading] = useState(true); // State kiểm soát loading
   const [passwords, setPasswords] = useState({
     password: "",
     confirmPassword: "",
@@ -69,6 +70,8 @@ const Profile = () => {
           variant: "danger",
         });
         
+      }finally{
+        setLoading(false);
       }
     };
     fetchProfile();
@@ -214,227 +217,24 @@ const Profile = () => {
     other: "Khác",
   };
   
- 
+  
+  if(loading){
+    return(
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Đang tải...</span>
+        </div>
+      </div>
+    );
+  }
+
 
    return (
     
    
 
 
-  //   <div className="container mt-5">
-  //     <h2>Hồ sơ cá nhân</h2>
-  //     <div className="mb-3">
-  //       <label className="form-label">Ảnh đại diện:</label>
-  //       <img
-  //         src={user.avatar}
-  //         alt="Avatar"
-  //         className="img-thumbnail"
-  //         style={{ width: "150px", height: "150px" }}
-  //       />
-  //     </div>
-      
-
-  //     <form onSubmit={handleTmp}>
-  //       {/* Tên */}
-  //       <div className="mb-3">
-  //         <label className="form-label">Tên:</label>
-  //         <input
-  //           type="text"
-  //           className="form-control"
-  //           name="vname"
-  //           value={user.name || ""}
-  //           readOnly
-  //         />
-  //       </div>
-
-  //       {/* Giới tính */}
-  //       <div className="mb-3">
-  //         <label className="form-label">Giới tính:</label>
-  //         <input
-  //           type="text"
-  //           className="form-control"
-  //           name="vsex"
-  //           value={genderMap[user.sex] || "Chưa xác định"}
-  //           readOnly
-  //         />
-  //       </div>
-
-  //       {/* Ngày sinh */}
-  //       <div className="mb-3">
-  //         <label className="form-label">Ngày sinh:</label>
-  //         <input
-  //           type="date"
-  //           className="form-control"
-  //           name="vbirthday"
-  //           value={user.birthday || ""}
-  //           readOnly
-  //         />
-  //       </div>
-
-  //       {/* Số điện thoại */}
-  //       <div className="mb-3">
-  //         <label className="form-label">Số điện thoại:</label>
-  //         <input
-  //           type="text"
-  //           className="form-control"
-  //           name="vphonenumber"
-  //           value={user.phonenumber || ""}
-  //           readOnly
-  //         />
-  //       </div>
-
-  //       {/* Địa chỉ */}
-  //       <div className="mb-3">
-  //         <label className="form-label">Địa chỉ:</label>
-  //         <input
-  //           type="text"
-  //           className="form-control"
-  //           name="vaddress"
-  //           value={user.address || ""}
-  //           readOnly
-  //         />
-  //       </div>
-  //     </form>
-
-  //     <div className="mb-3">
-  //       <button
-  //         className="btn btn-warning me-2"
-  //         onClick={() => setShowModal(true)}
-  //       >
-  //         Chỉnh sửa hồ sơ
-  //       </button>
-  //       <button
-  //         className="btn btn-danger"
-  //         onClick={() => setShowPasswordModal(true)}
-  //       >
-  //         Đổi mật khẩu
-  //       </button>
-  //     </div>
-  //     {/* chinh sua thogn tin ca nhan */}
-  //      {/* Modal cập nhật */}
-  //      <Modal show={showModal} onHide={() => setShowModal(false)}>
-  //       <Modal.Header closeButton>
-  //         <Modal.Title>Chỉnh sửa hồ sơ</Modal.Title>
-  //       </Modal.Header>
-  //       <Modal.Body>
-  //       <div className="mb-3">
-  //             <label className="form-label">Ảnh đại diện:</label>
-  //             <img
-  //               src={preview || editUser.avatar} // Nếu có ảnh mới thì hiển thị ảnh mới, không thì hiển thị avatar cũ
-  //               alt="Avatar"
-  //               className="img-thumbnail"
-  //               style={{ width: "150px", height: "150px" }}
-  //             />
-  //           </div>
-
-  //         <Form onSubmit={handleUpdate}>
-  //           <Form.Group>
-  //             <Form.Label>Ảnh đại diện</Form.Label>
-  //             <Form.Control type="file"  onChange={handleFileChange} accept="image/*"></Form.Control>
-              
-  //           </Form.Group>
-            
-  //           <Form.Group>
-  //             <Form.Label>Tên</Form.Label>
-  //             <Form.Control type="text" name="name" value={editUser.name} onChange={handleChange} required />
-  //           </Form.Group>
-
-  //           <Form.Group>
-  //             <Form.Label>Giới tính</Form.Label>
-  //             <Form.Select name="sex" value={editUser.sex} onChange={handleChange}>
-  //               <option value="male">Nam</option>
-  //               <option value="female">Nữ</option>
-  //               <option value="other">Khác</option>
-  //             </Form.Select>
-  //           </Form.Group>
-
-  //           <Form.Group>
-  //             <Form.Label>Ngày sinh</Form.Label>
-  //             <Form.Control type="date" name="birthday" value={editUser.birthday} onChange={handleChange} />
-  //           </Form.Group>
-
-  //           <Form.Group>
-  //             <Form.Label>Số điện thoại</Form.Label>
-  //             <Form.Control type="text" name="phonenumber" value={editUser.phonenumber} onChange={handleChange} />
-  //           </Form.Group>
-
-  //           <Form.Group>
-  //             <Form.Label>Địa chỉ</Form.Label>
-  //             <Form.Control type="text" name="address" value={editUser.address} onChange={handleChange} />
-  //           </Form.Group>
-
-  //           <Button variant="primary" type="submit" className="mt-3">Cập nhật</Button>
-  //         </Form>
-  //       </Modal.Body>
-  //     </Modal>
-
-  //     {/* Modal đổi mật khẩu */}
-  //     <Modal show={showPasswordModal} onHide={() => setShowPasswordModal(false)}>
-  //       <Modal.Header closeButton>
-  //         <Modal.Title>Đổi mật khẩu</Modal.Title>
-  //       </Modal.Header>
-  //       <Modal.Body>
-  //         <Form onSubmit={handleChangePassword}>
-  //           {/* Hiển thị tên người dùng (chỉ đọc) */}
-  //           <Form.Group>
-  //             <Form.Label>Tên người dùng</Form.Label>
-  //             <Form.Control type="text" value={user.name} readOnly />
-  //           </Form.Group>
-
-  //           {/* Nhập mật khẩu mới */}
-  //           <Form.Group>
-  //             <Form.Label>Mật khẩu mới</Form.Label>
-  //             <Form.Control
-  //               type="password"
-  //               name="password"
-  //               value={passwords.password}
-  //               onChange={handlePasswordChange}
-  //               required
-  //             />
-  //           </Form.Group>
-
-  //           {/* Nhập lại mật khẩu */}
-  //           <Form.Group>
-  //             <Form.Label>Nhập lại mật khẩu</Form.Label>
-  //             <Form.Control
-  //               type="password"
-  //               name="confirmPassword"
-  //               value={passwords.confirmPassword}
-  //               onChange={handlePasswordChange}
-  //               required
-  //             />
-  //           </Form.Group>
-
-  //           <Button variant="primary" type="submit" className="mt-3">
-  //             Đổi mật khẩu
-  //           </Button>
-            
-  //         </Form>
-  //       </Modal.Body>
-  //     </Modal>
-
-
-  //     {/* Bootstrap Toast */}
-  //     <ToastContainer
-  //       position="top-center"
-  //       className="p-3"
-  //       style={{ zIndex: 9999999  }}
-  //     >
-  //       <Toast
-  //         onClose={() => setToast({ ...toast, show: false })}
-  //         show={toast.show}
-  //         delay={2000}
-  //         autohide
-  //         bg={toast.variant}
-          
-  //       >
-  //         <Toast.Header>
-  //           <strong className="me-auto">Thông báo</strong>
-  //         </Toast.Header>
-  //         <Toast.Body>{toast.message}</Toast.Body>
-  //       </Toast>
-  //     </ToastContainer>
-  //   </div>
+  
 
 
 
@@ -448,7 +248,8 @@ const Profile = () => {
     {/* Ảnh đại diện */}
     <div className="text-center mb-2">
       <img
-        src={user.avatar}
+        // src={user.avatar}
+        src={`${apiUrl}/avatar/${user.avatar}`}
         alt="Avatar"
         className="img-thumbnail rounded-circle border border-2"
         style={{ width: "130px", height: "130px", objectFit: "cover" }}
@@ -495,7 +296,7 @@ const Profile = () => {
     </Modal.Header>
     <Modal.Body>
       <div className="text-center mb-3">
-        <img src={preview || editUser.avatar} alt="Avatar" className="img-thumbnail rounded-circle" style={{ width: "120px", height: "120px" }} />
+        <img src={preview ||`${apiUrl}/avatar/${editUser.avatar}`} alt="Avatar" className="img-thumbnail rounded-circle" style={{ width: "120px", height: "120px" }} />
       </div>
       <Form onSubmit={handleUpdate}>
         <Form.Group>

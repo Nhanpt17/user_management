@@ -29,7 +29,7 @@ const Login = () => {
         variant: "success",
       });
 
-      setTimeout(() => history.push("/dashboard"));
+      setTimeout(() => history.push("/profile"));
 
     } catch (error) {
       setToast({
@@ -86,7 +86,13 @@ const Login = () => {
 
           {/* Button */}
           <button type="submit" className="btn btn-primary w-100 fw-bold">
-            Đăng nhập
+            {isSubmitting ? (
+            <>
+              <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang đăng nhập...
+            </>
+          ) : (
+            "Đăng nhập"
+          )}
           </button>
 
           {/* Đăng ký link */}

@@ -17,6 +17,7 @@ const Navbar = () => {
   const [user, setUser] = useState(getUserToken());
   const isAdmin = user?.role === "admin";
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const apiUrl = process.env.REACT_APP_API_URL_IMG;
 
   useEffect(() => {
     const updateUser = () => {
@@ -76,7 +77,7 @@ const Navbar = () => {
               {/* Avatar */}
               <button className="btn btn-link nav-link text-white dropdown-toggle" onClick={toggleDropdown}>
                 <img
-                  src={user?.avatar || "https://static.vecteezy.com/system/resources/previews/023/291/014/original/user-account-person-avatar-free-vector.jpg"}
+                  src={`${apiUrl}/avatar/${user.avatar}` || "https://static.vecteezy.com/system/resources/previews/023/291/014/original/user-account-person-avatar-free-vector.jpg"}
                   alt="Avatar"
                   className="rounded-circle border border-light shadow-sm custom-avatar"
                 />
@@ -88,7 +89,7 @@ const Navbar = () => {
                   <li>
                     <div className="dropdown-item d-flex align-items-center">
                       <img
-                        src={user?.avatar || "https://static.vecteezy.com/system/resources/previews/023/291/014/original/user-account-person-avatar-free-vector.jpg"}
+                        src={`${apiUrl}/avatar/${user.avatar}` || "https://static.vecteezy.com/system/resources/previews/023/291/014/original/user-account-person-avatar-free-vector.jpg"}
                         alt="Avatar"
                         className="rounded-circle border"
                         style={{ width: "20px", height: "20px", marginRight: "10px" }}

@@ -7,7 +7,8 @@ import "../css-page/users.css";
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [editUser, setEditUser] = useState({});
-
+  const apiUrl = process.env.REACT_APP_API_URL_IMG;
+  
   const [userDetails, setUsersDetails] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [showModalViewDeltai, setModalViewDetail] = useState(false);
@@ -18,7 +19,7 @@ const Users = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
-
+  const [loading, setLoading] = useState(true); // State kiểm soát loading
 
   const genderMap = {
     male: "Nam",
@@ -40,6 +41,8 @@ const Users = () => {
           message: "Bạn không có quyền truy cập!",
           variant: "danger",
         });
+      } finally{
+        setLoading(false);
       }
     };
 
@@ -109,6 +112,7 @@ const Users = () => {
       });
     } finally {
       setIsSubmitting(false);
+      
     }
   };
 
@@ -150,7 +154,7 @@ const Users = () => {
     if (isSubmitting) {
       return;
     }
-
+    
     setIsSubmitting(true);
 
     try {
@@ -163,7 +167,9 @@ const Users = () => {
       setUsersDetails(data);
       setEditUser(data);
       if (type === "edit") {
+        
         setShowModal(true);
+      
       } else {
         setModalViewDetail(true);
       } // Khi lấy xong thông tin user, hiển thị modal
@@ -174,191 +180,32 @@ const Users = () => {
         variant: "danger",
       });
     } finally {
+      const avatarUrl = `${apiUrl}/avatar/${userDetails.avatar}`;
       setIsSubmitting(false);
-      console.log("file ảnh: "+userDetails.avatar);
+      console.log("file ảnh:", userDetails.avatar);
+      console.log("API URL:", apiUrl);
+      console.log("Full Avatar URL:", avatarUrl);
+      const avatarUrl2 = `${apiUrl}/avatar/${editUser.avatar}`;
+      
+        console.log("ed file ảnh:", editUser.avatar);
+        console.log("ed API URL:", apiUrl);
+        console.log("ed Full Avatar URL:", avatarUrl2);
     }
   };
 
+  if (loading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center vh-100">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Đang tải...</span>
+        </div>
+      </div>
+    );
+  }
+
+
   return (
-    // <>
-    //   <div className="container mt-4">
-    //     <h2>Danh sách User</h2>
-    //     <table className="table table-bordered">
-    //       <thead>
-    //         <tr>
-    //           <th>ID</th>
-    //           <th>Tên</th>
-    //           <th>Email</th>
-    //           <th>Vai trò</th>
-    //           <th>Thao tác</th>
-    //         </tr>
-    //       </thead>
-    //       <tbody>
-    //         {users.map((user) => (
-    //           <tr key={user.id}>
-    //             <td>{user.id}</td>
-    //             <td>{user.name}</td>
-    //             <td>{user.email}</td>
-    //             <td>{user.role}</td>
-    //             <td>
-    //               <button onClick={() => handleViewDetails(user.id,'edit')}>Chỉnh sửa</button>
-    //               <button onClick={() => handleDeleteUser(user.id)}>Xóa</button>
-    //               <button
-    //                 onClick={() => handleViewDetails(user.id,'view')} // Hiển thị chi tiết khi click
-    //               >
-    //                 Chi tiết{" "}
-    //               </button>
-    //             </td>
-    //           </tr>
-    //         ))}
-    //       </tbody>
-    //     </table>
-    //   </div>
-
-    //   {/* Modal chinh suar nguoi dung */}
-    //   <Modal show={showModal} onHide={() => setShowModal(false)}>
-    //     <Modal.Header closeButton>
-    //       <Modal.Title> Chỉnh sửa người dùng</Modal.Title>
-    //     </Modal.Header>
-    //     <Modal.Body>
-    //     <div className="mb-3">
-    //           <label className="form-label">Ảnh đại diện:</label>
-    //           <img
-    //             src={preview || editUser.avatar} // Nếu có ảnh mới thì hiển thị ảnh mới, không thì hiển thị avatar cũ
-    //             alt="Avatar"
-    //             className="img-thumbnail"
-    //             style={{ width: "150px", height: "150px" }}
-    //           />
-    //         </div>
-
-    //       <Form onSubmit={handleUpdateUser}>
-    //         <Form.Group>
-    //           <Form.Label>Ảnh đại diện</Form.Label>
-    //           <Form.Control type="file"  onChange={handleFileChange} accept="image/*"></Form.Control>
-
-    //         </Form.Group>
-
-    //         <Form.Group>
-    //           <Form.Label>Tên</Form.Label>
-    //           <Form.Control type="text" name="name" value={editUser.name} onChange={handleChange} required />
-    //         </Form.Group>
-
-    //         <Form.Group>
-    //           <Form.Label>Email</Form.Label>
-    //           <Form.Control type="email" name="email" value={editUser.email} onChange={handleChange} required />
-    //         </Form.Group>
-
-    //         <Form.Group >
-    //           <Form.Label>Mật khẩu</Form.Label>
-    //           <Form.Control type="text" name="password" value={editUser.password} onChange={handleChange} required />
-    //         </Form.Group>
-
-    //         <Form.Group>
-    //           <Form.Label>Giới tính</Form.Label>
-    //           <Form.Select name="sex" value={editUser.sex} onChange={handleChange}>
-    //             <option value="male">Nam</option>
-    //             <option value="female">Nữ</option>
-    //             <option value="other">Khác</option>
-    //           </Form.Select>
-    //         </Form.Group>
-
-    //         <Form.Group>
-    //           <Form.Label>Ngày sinh</Form.Label>
-    //           <Form.Control type="date" name="birthday" value={editUser.birthday} onChange={handleChange} />
-    //         </Form.Group>
-
-    //         <Form.Group>
-    //           <Form.Label>Số điện thoại</Form.Label>
-    //           <Form.Control type="tel" name="phonenumber" value={editUser.phonenumber} onChange={handleChange} />
-    //         </Form.Group>
-
-    //         <Form.Group>
-    //           <Form.Label>Địa chỉ</Form.Label>
-    //           <Form.Control type="text" name="address" value={editUser.address} onChange={handleChange} />
-    //         </Form.Group>
-
-    //       </Form>
-    //     </Modal.Body>
-    //     <Modal.Footer>
-    //       <>
-    //         <Button variant="secondary" onClick={() => setShowModal(false)}>
-    //           Hủy
-    //         </Button>
-    //         <Button variant="primary" onClick={handleUpdateUser}>
-    //           Cập nhật
-    //         </Button>
-    //       </>
-    //     </Modal.Footer>
-    //   </Modal>
-
-    //   {/* Modal xem chi tiet nguoi dung */}
-    //   <Modal
-    //     show={showModalViewDeltai}
-    //     onHide={() => setModalViewDetail(false)}
-    //   >
-    //     <Modal.Header closeButton>
-    //       <Modal.Title> Chi tiet nguoi dung</Modal.Title>
-    //     </Modal.Header>
-    //     <Modal.Body>
-    //     <img src={userDetails.avatar} alt="avatar" style={{height: "150px", width:"150px",}} />
-    //     <p>
-    //         <strong>ID:</strong> {userDetails.id}
-    //       </p>
-    //       <p>
-    //         <strong>Tên:</strong> {userDetails.name}
-    //       </p>
-    //       <p>
-    //         <strong>Email:</strong> {userDetails.email}
-    //       </p>
-    //       <p>
-    //         <strong>Mật khẩu:</strong> {userDetails.password}
-    //       </p>
-    //       <p>
-    //         <strong>Giới tính:</strong> {genderMap[userDetails.sex]||'Không xác định'}
-    //       </p>
-    //       <p>
-    //         <strong>Ngày sinh:</strong> {userDetails.birthday}
-    //       </p>
-
-    //       <p>
-    //         <strong>Vai trò:</strong> {userDetails.role}
-    //       </p>
-    //       <p>
-    //         <strong>Địa chỉ:</strong> {userDetails.address}
-    //       </p>
-    //       <p>
-    //         <strong>Số điện thoại:</strong> {userDetails.phonenumber}
-    //       </p>
-    //       <p>
-    //         <strong>Ngày tạo:</strong> {userDetails.created_at}
-    //       </p>
-    //     </Modal.Body>
-    //     <Modal.Footer>
-    //       <Button
-    //         variant="secondary"
-    //         onClick={() => {
-    //           setModalViewDetail(false);
-    //         }}
-    //       >
-    //         Đóng
-    //       </Button>
-    //     </Modal.Footer>
-    //   </Modal>
-
-    //   <ToastContainer position="top-center" className="p-4">
-    //     <Toast
-    //       onClose={() => setToast({ ...toast, show: false })}
-    //       show={toast.show}
-    //       delay={2000}
-    //       autohide
-    //       bg={toast.variant}
-    //     >
-    //       <Toast.Body className="text-white text-center">
-    //         {toast.message}
-    //       </Toast.Body>
-    //     </Toast>
-    //   </ToastContainer>
-    // </>
+    
     <>
     <div className="container mt-4">
   <h2 className="text-center fw-bold text-primary">Danh sách User</h2>
@@ -404,7 +251,8 @@ const Users = () => {
         <Modal.Body>
           <div className="text-center">
             <img
-              src={preview || editUser.avatar}
+              // src={preview || editUser.avatar}
+              src={preview ||`${apiUrl}/avatar/${editUser.avatar}`}
               alt="Avatar"
               className="rounded-circle shadow"
               style={{ width: "150px", height: "150px", objectFit: "cover" }}
@@ -524,8 +372,8 @@ const Users = () => {
         <Modal.Body>
           <div className="text-center">
             <img
-               src={userDetails.avatar}
-              
+               //src={userDetails.avatar}
+               src={`${apiUrl}/avatar/${userDetails.avatar}`}
               alt="Avatar"
               className="rounded-circle shadow-lg"
               style={{ height: "150px", width: "150px", objectFit: "cover" }}
