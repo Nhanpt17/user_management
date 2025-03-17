@@ -251,7 +251,13 @@ const Register = () => {
 
       {/* Nút Đăng ký */}
       <button type="submit" className="btn btn-primary btn-sm w-100 fw-bold">
-        Đăng ký
+      {isSubmitting ? (
+            <>
+              <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang đăng ký...
+            </>
+          ) : (
+            "Đăng ký"
+          )}
       </button>
 
       {/* Chuyển hướng đến trang đăng nhập */}
